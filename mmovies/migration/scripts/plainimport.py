@@ -6,23 +6,21 @@ import itertools
 import os
 import re
 import sys
+import time
 
 import pymongo
 
 import logging
 
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 
 
 class ParsingError(Exception):
     pass
 
 
-
 HOST = '127.0.0.1'
 PORT = 27017
-
-
 
 
 def forward_stream(stream, re_guard):
@@ -47,34 +45,18 @@ def forward_stream(stream, re_guard):
 
 
 
-
-
-
-
-
-def humancount(n):
-    n = float(n)
-    if n >= 10**6:
-        return '%.1fM' % (n / 10**6)
-    elif n >= 1**3:
-        return '%.1fk' % (n / 10**3)
-    else:
-        return '%d' % n
-
-
-
-
-
-
 class Loader(object):
 
     def __init__(self, db, plaintext_dir):
         self.db = db
         self.plaintext_dir = plaintext_dir
         self.coll_movies = self.db['movies']
+        self.t0 = time.time()
 
 
     def print_progress(self, n):
+        if n % 431:
+            return
         n = str(n)
         sys.stdout.write(n)
         sys.stdout.write(chr(8)*len(n))
@@ -83,9 +65,7 @@ class Loader(object):
 
     def print_total(self, n):
         n = str(n)
-        sys.stdout.write(n)
-        sys.stdout.write('... done.')
-        sys.stdout.flush()
+        print '%s... done (%s secs).' % (n, int(time.time()-self.t0))
 
 
     def iter_list(self):
@@ -100,12 +80,8 @@ class Loader(object):
             filename = os.path.join(self.plaintext_dir, '%s.list.gz' % self.list_name)
             fin = gzip.GzipFile(filename)
 
-        print 'parsing %s' % filename
         for rawline in forward_stream(fin, self.re_guard):
             yield rawline.strip().decode('latin1')
-
-
-
 
 
 
@@ -124,20 +100,10 @@ class YearLoader(Loader):
 
     def load(self):
         for idx, (movie_name, year) in enumerate(self.iter_years()):
-
-            movie = {
-                    'name': movie_name,
-                    'year': year
-                    }
-
-            self.coll_movies.insert(movie)
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.coll_movies.insert({'name': movie_name, 'year': year})
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -164,16 +130,10 @@ class TaglinesLoader(Loader):
 
     def load(self):
         for idx, (movie_name, taglines) in enumerate(self.iter_taglines()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'taglines': taglines}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -182,7 +142,6 @@ class ProductionCompaniesLoader(Loader):
 
     list_name = 'production-companies'
     re_guard = 'PRODUCTION COMPANIES LIST'
-
 
     def iter_companies(self):
         for line in self.iter_list():
@@ -193,16 +152,10 @@ class ProductionCompaniesLoader(Loader):
 
     def load(self):
         for idx, (movie_name, company_name) in enumerate(self.iter_companies()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'company_name': company_name}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -211,7 +164,6 @@ class GenreLoader(Loader):
 
     list_name = 'genres'
     re_guard = '\d: THE GENRES LIST'
-
 
     def iter_genres(self):
         for line in self.iter_list():
@@ -222,16 +174,10 @@ class GenreLoader(Loader):
 
     def load(self):
         for idx, (movie_name, genre) in enumerate(self.iter_genres()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'genre': genre}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -239,7 +185,6 @@ class LanguageLoader(Loader):
 
     list_name = 'language'
     re_guard = 'LANGUAGE LIST'
-
 
     def iter_languages(self):
         for line in self.iter_list():
@@ -250,16 +195,10 @@ class LanguageLoader(Loader):
 
     def load(self):
         for idx, (movie_name, language) in enumerate(self.iter_languages()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'language': language}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -267,7 +206,6 @@ class CountriesLoader(Loader):
 
     list_name = 'countries'
     re_guard = 'COUNTRIES LIST'
-
 
     def iter_countries(self):
         for line in self.iter_list():
@@ -278,16 +216,10 @@ class CountriesLoader(Loader):
 
     def load(self):
         for idx, (movie_name, country) in enumerate(self.iter_countries()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'country': country}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
 
 
 
@@ -297,7 +229,6 @@ class AkaTitlesLoader(Loader):
 
     list_name = 'aka-titles'
     re_guard = 'AKA TITLES LIST'
-
 
     def iter_aka_titles(self):
         movie_name = None
@@ -320,26 +251,10 @@ class AkaTitlesLoader(Loader):
 
     def load(self):
         for idx, (movie_name, aka_titles) in enumerate(self.iter_aka_titles()):
-
             self.coll_movies.update({'name': movie_name}, {'$push': {'aka_titles': aka_titles}})
-            # TODO did the update succeed?
-
-            if not idx % 431: # just a nice prime number
-                self.print_progress(idx)
+            self.print_progress(idx)
 
         self.print_total(idx)
-
-        print
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -366,6 +281,7 @@ def main(plaintext_dir):
             AkaTitlesLoader,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
+        print 'loading %s' % loader.list_name
         loader.load()
 
 
