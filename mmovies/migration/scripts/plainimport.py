@@ -37,7 +37,7 @@ def forward_stream(stream, re_guard):
                     break
             break
     else:
-        raise ParsingError("Bad stream: %s does not contain the line '%s'" % (stream.name, re_guard))
+        raise ParsingError("Cannot parse: %s does not contain the line '%s'" % (stream.name, re_guard))
 
     return itertools.chain([first], stream)
 
@@ -81,7 +81,7 @@ class Loader(object):
             fin = gzip.GzipFile(filename)
 
         for rawline in forward_stream(fin, self.re_guard):
-            yield rawline.strip().decode('latin1')
+            yield rawline.rstrip().decode('latin1')
 
 
 
@@ -258,6 +258,72 @@ class AkaTitlesLoader(Loader):
 
 
 
+class PlotLoader(Loader):
+
+    list_name = 'plot'
+    re_guard = 'PLOT SUMMARIES LIST'
+
+    def iter_plot(self):
+        movie_name = None
+        plot_lines = []
+
+        for line in self.iter_list():
+            if line.startswith('MV: '):
+                movie_name = line[4:]
+                plot_lines = []
+            elif line.startswith('PL: '):
+                plot_lines.append(line[4:])
+            elif line.startswith('BY: '):
+                yield movie_name, ' '.join(plot_lines), line[4:]
+
+    def load(self):
+        for idx, (movie_name, plot, by) in enumerate(self.iter_plot()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'plot': {'text': plot, 'by': by}}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+class TriviaLoader(Loader):
+
+    list_name = 'trivia'
+    re_guard = 'FILM TRIVIA'
+
+    def consume_trivia(self, first_line, it):
+        trivia_lines = [first_line[2:]]
+        while True:
+            line = next(it)
+            if line:
+                trivia_lines.append(line[2:])
+            else:
+                break
+        return ' '.join(trivia_lines)
+
+
+    def iter_trivia(self):
+        movie_name = None
+
+        it = self.iter_list()
+        while True:
+            line = next(it)
+            if line.startswith('# '):
+                movie_name = line[2:]
+            elif line.startswith('- '):
+                trivia = self.consume_trivia(line, it)
+                yield movie_name, trivia
+
+
+    def load(self):
+        for idx, (movie_name, trivia) in enumerate(self.iter_trivia()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'trivia': trivia}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+
 
 
 def main(plaintext_dir):
@@ -279,6 +345,8 @@ def main(plaintext_dir):
             LanguageLoader,
             CountriesLoader,
             AkaTitlesLoader,
+            PlotLoader,
+            TriviaLoader,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
         print 'loading %s' % loader.list_name
