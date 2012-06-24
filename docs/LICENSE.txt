@@ -1,4 +1,4 @@
-mmovies.migrate Copyright 2012, Marco Mariani
+mmovies.migration Copyright 2012, Marco Mariani
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -14,7 +14,7 @@ long_description = (
     open('CHANGES.txt').read()
     + '\n')
 
-setup(name='mmovies.migrate',
+setup(name='mmovies.migration',
       version=version,
       description="Import IMDB plain text data to Mongo",
       long_description=long_description,
@@ -26,7 +26,7 @@ setup(name='mmovies.migrate',
       keywords='',
       author='Marco Mariani',
       author_email='birbag@gmail.com',
-      url='https://github.com/mmariani/mmovies.migrate',
+      url='https://github.com/mmariani/mmovies.migration',
       license='gpl',
       packages=find_packages(),
       namespace_packages=['mmovies'],
@@ -40,6 +40,6 @@ setup(name='mmovies.migrate',
       entry_points="""
       # -*- Entry points: -*-
       [console_scripts]
-      mmovies-import = mmovies.migrate.scripts.plainimport:main
+      mmovies-import = mmovies.migration.scripts.plainimport:main
       """,
       )
