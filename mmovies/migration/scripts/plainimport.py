@@ -238,7 +238,7 @@ class AkaTitlesLoader(Loader):
             elif not line:
                 new_movie = True
             else:
-                aka_titles.append(line)
+                aka_titles.append(line.strip())
         yield movie_name, aka_titles
 
 
