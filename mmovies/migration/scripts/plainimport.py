@@ -115,18 +115,12 @@ class TaglinesLoader(Loader):
 
     def iter_taglines(self):
         movie_name = None
-        taglines = []
 
         for line in self.iter_list():
             if line.startswith('# '):
-                if movie_name:
-                    yield movie_name, taglines
                 movie_name = line[2:]
-                taglines = []
             elif line:
-                taglines.append(line)
-        yield movie_name, taglines
-
+                yield movie_name, line.strip()
 
     def load(self):
         for idx, (movie_name, taglines) in enumerate(self.iter_taglines()):
@@ -224,7 +218,6 @@ class CountriesLoader(Loader):
 
 
 
-
 class AkaTitlesLoader(Loader):
 
     list_name = 'aka-titles'
@@ -315,6 +308,7 @@ class TriviaLoader(Loader):
 
 
     def load(self):
+        # TODO: separate trivia into separate attributes if they begin with 'EASTER EGG: ' or 'SPOILER: '
         for idx, (movie_name, trivia) in enumerate(self.iter_trivia()):
             self.coll_movies.update({'name': movie_name}, {'$push': {'trivia': trivia}})
             self.print_progress(idx)
@@ -322,6 +316,26 @@ class TriviaLoader(Loader):
         self.print_total(idx)
 
 
+
+
+
+class ColorInfoLoader(Loader):
+
+    list_name = 'color-info'
+    re_guard = 'COLOR INFO LIST'
+
+    def iter_colorinfo(self):
+        for line in self.iter_list():
+            data = line.split('\t')
+            movie_name, color_info = data[0], data[-1]
+            yield movie_name, color_info
+
+    def load(self):
+        for idx, (movie_name, color_info) in enumerate(self.iter_colorinfo()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'color_info': color_info}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
 
 
 
@@ -347,6 +361,7 @@ def main(plaintext_dir):
             AkaTitlesLoader,
             PlotLoader,
             TriviaLoader,
+            ColorInfoLoader,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
         print 'loading %s' % loader.list_name
