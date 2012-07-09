@@ -40,6 +40,6 @@ setup(name='mmovies.migration',
       entry_points="""
       # -*- Entry points: -*-
       [console_scripts]
-      mmovies-import = mmovies.migration.scripts.plainimport:main
+      mmovies-import = mmovies.migration.plainimport:main
       """,
       )

@@ -22,6 +22,9 @@ class ParsingError(Exception):
 HOST = '127.0.0.1'
 PORT = 27017
 
+# XXX look for tabs within imported fields - they might need to be split further
+# XXX use a real parser, will we?
+
 
 def forward_stream(stream, re_guard):
     """
@@ -93,8 +96,10 @@ class YearLoader(Loader):
 
     def iter_years(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, year = data[0], data[-1]
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
+            data = line.split('\t', 1)
+            movie_name, year = data[0], data[1].strip()
             yield movie_name, year
 
 
@@ -139,8 +144,10 @@ class ProductionCompaniesLoader(Loader):
 
     def iter_companies(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, company_name = data[0], data[-1]
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
+            data = line.split('\t', 1)
+            movie_name, company_name = data[0], data[1].strip()
             yield movie_name, company_name
 
 
@@ -154,6 +161,80 @@ class ProductionCompaniesLoader(Loader):
 
 
 
+
+class DistributorsLoader(Loader):
+
+    list_name = 'distributors'
+    re_guard = 'DISTRIBUTORS LIST'
+
+    def iter_distributors(self):
+        for line in self.iter_list():
+            data = line.split('\t', 1)
+            movie_name, distributor_name = data[0], data[1].strip()
+            yield movie_name, distributor_name
+
+
+    def load(self):
+        for idx, (movie_name, distributor_name) in enumerate(self.iter_distributors()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'distributors': distributor_name}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+class LocationsLoader(Loader):
+
+    list_name = 'locations'
+    re_guard = 'LOCATIONS LIST'
+
+    def iter_locations(self):
+        for line in self.iter_list():
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
+            data = line.split('\t', 1)
+            movie_name, locations = data[0], data[1].strip()
+            yield movie_name, locations
+
+
+    def load(self):
+        for idx, (movie_name, locations) in enumerate(self.iter_locations()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'locations': locations}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+
+class MiscellaneousCompaniesLoader(Loader):
+    # XXX refactor see locations
+
+    list_name = 'miscellaneous-companies'
+    re_guard = 'MISCELLANEOUS COMPANY LIST'
+
+    def iter_companies(self):
+        for line in self.iter_list():
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
+            data = line.split('\t', 1)
+            movie_name, companies = data[0], data[1].strip()
+            yield movie_name, companies
+
+
+    def load(self):
+        for idx, (movie_name, companies) in enumerate(self.iter_companies()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'miscellaneous-companies': companies}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+
+
+
+
 class GenreLoader(Loader):
 
     list_name = 'genres'
@@ -161,8 +242,8 @@ class GenreLoader(Loader):
 
     def iter_genres(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, genre = data[0], data[-1]
+            data = line.split('\t', 1)
+            movie_name, genre = data[0], data[1].strip()
             yield movie_name, genre
 
 
@@ -182,8 +263,12 @@ class LanguageLoader(Loader):
 
     def iter_languages(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, language = data[0], data[-1]
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
+            data = line.split('\t', 1)
+            if len(data) == 1:      # missing language, it happens
+                continue
+            movie_name, language = data[0], data[1].strip()
             yield movie_name, language
 
 
@@ -203,8 +288,10 @@ class CountriesLoader(Loader):
 
     def iter_countries(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, country = data[0], data[-1]
+            data = line.split('\t', 1)
+            if len(data) == 1:      # missing language, it happens
+                continue
+            movie_name, country = data[0], data[1].strip()
             yield movie_name, country
 
 
@@ -319,6 +406,52 @@ class TriviaLoader(Loader):
 
 
 
+
+class GoofsLoader(Loader):
+    # XXX refactor, see Trivia
+
+    list_name = 'goofs'
+    re_guard = 'GOOFS LIST'
+
+    def consume_goof(self, first_line, it):
+        goof_lines = [first_line[2:]]
+        while True:
+            line = next(it)
+            if line:
+                goof_lines.append(line[2:])
+            else:
+                break
+        return ' '.join(goof_lines)
+
+
+    def iter_goof(self):
+        movie_name = None
+
+        it = self.iter_list()
+        while True:
+            line = next(it)
+            if line.startswith('# '):
+                movie_name = line[2:]
+            elif line.startswith('- '):
+                goof = self.consume_goof(line, it)
+                yield movie_name, goof
+
+
+    def load(self):
+        # XXX divide into CHAR, CONT, CREW, FACT, FAIR, FAKE, PLOT, SYNC
+
+        for idx, (movie_name, goof) in enumerate(self.iter_goof()):
+            self.coll_movies.update({'name': movie_name}, {'$push': {'goofs': goof}})
+            self.print_progress(idx)
+
+        self.print_total(idx)
+
+
+
+
+
+
+
 class ColorInfoLoader(Loader):
 
     list_name = 'color-info'
@@ -326,8 +459,8 @@ class ColorInfoLoader(Loader):
 
     def iter_colorinfo(self):
         for line in self.iter_list():
-            data = line.split('\t')
-            movie_name, color_info = data[0], data[-1]
+            data = line.split('\t', 1)
+            movie_name, color_info = data[0], data[1].strip()
             yield movie_name, color_info
 
     def load(self):
@@ -362,6 +495,10 @@ def main(plaintext_dir):
             PlotLoader,
             TriviaLoader,
             ColorInfoLoader,
+            GoofsLoader,
+            DistributorsLoader,
+            MiscellaneousCompaniesLoader,
+            LocationsLoader,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
         print 'loading %s' % loader.list_name
