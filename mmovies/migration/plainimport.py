@@ -459,6 +459,8 @@ class ColorInfoLoader(Loader):
 
     def iter_colorinfo(self):
         for line in self.iter_list():
+            if set(line) == set(['-']):     # empty line, discarded
+                continue
             data = line.split('\t', 1)
             movie_name, color_info = data[0], data[1].strip()
             yield movie_name, color_info
