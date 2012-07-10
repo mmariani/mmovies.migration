@@ -50,13 +50,16 @@ class LoaderBase(object):
 
 
     def progress(self, n, end=False):
+        if not end and n % 431:
+            return
+
+        sys.stdout.write('%d' % n)
+
         if end:
-            sys.stdout.write('%d... done (%s secs).' % (n, int(time.time()-self.t0)))
+            sys.stdout.write('... done (%s secs).\n' % (n, int(time.time()-self.t0)))
         else:
-            if n % 431:
-                return
-            sys.stdout.write('%d' % n)
             sys.stdout.write(chr(8)*len(str(n)))
+
         sys.stdout.flush()
 
 
