@@ -71,7 +71,7 @@ class LoaderBase(object):
 
         if end:
             elapsed = time.time()-self.t0
-            self.fprog.write('%s (%s secs - %d/s).\n' % (n, int(elapsed), n/elapsed))
+            self.fprog.write(' (%s secs - %d/s).\n' % (int(elapsed), n/elapsed))
         else:
             self.fprog.write(chr(8)*len(str(n)))
 
