@@ -33,7 +33,7 @@ def forward_stream(stream, re_guard):
                     break
             break
     else:
-        raise ParsingError("Cannot parse: %s does not contain the line '%s'" % (stream.name, re_guard))
+        raise ParsingError("Cannot parse: data does not contain the line '%s'" % re_guard)
 
     return itertools.chain([first], stream)
 
