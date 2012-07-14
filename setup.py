@@ -36,6 +36,7 @@ setup(name='mmovies.migration',
           'setuptools',
           # -*- Extra requirements: -*-
           'pymongo',
+          'decorator',
       ],
       entry_points="""
       # -*- Entry points: -*-

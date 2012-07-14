@@ -46,6 +46,7 @@ def main(plaintext_dir):
             loaders.Distributors,
             loaders.MiscellaneousCompanies,
             loaders.Locations,
+            loaders.AlternateVersions,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
         print 'loading %s' % loader.list_name

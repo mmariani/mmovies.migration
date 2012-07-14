@@ -56,7 +56,7 @@ class LoaderBase(object):
         sys.stdout.write('%d' % n)
 
         if end:
-            sys.stdout.write('... done (%s secs).\n' % (n, int(time.time()-self.t0)))
+            sys.stdout.write('... done (%s secs).\n' % int(time.time()-self.t0))
         else:
             sys.stdout.write(chr(8)*len(str(n)))
 

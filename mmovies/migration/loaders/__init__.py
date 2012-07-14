@@ -16,4 +16,5 @@ from .plot import Plot
 from .production_companies import ProductionCompanies
 from .taglines import Taglines
 from .trivia import Trivia
+from .alternate_versions import AlternateVersions
 
