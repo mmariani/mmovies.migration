@@ -35,7 +35,7 @@ class AkaTitles(LoaderBase):
 
     def load(self):
         for idx, (movie_name, aka_titles) in enumerate(self.iter_block()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'aka_titles': aka_titles}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'aka_titles': aka_titles}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

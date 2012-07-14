@@ -25,7 +25,7 @@ class Countries(LoaderBase):
 
     def load(self):
         for idx, (movie_name, country) in enumerate(self.iter_line()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'country': country}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'country': country}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

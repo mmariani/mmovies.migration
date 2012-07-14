@@ -24,7 +24,7 @@ class Language(LoaderBase):
 
     def load(self):
         for idx, (movie_name, language) in enumerate(self.iter_line()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'language': language}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'language': language}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

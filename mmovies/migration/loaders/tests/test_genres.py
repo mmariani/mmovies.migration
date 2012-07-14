@@ -61,7 +61,7 @@ class TestGenres(LoaderTest):
                 {u'genre': [u'Reality-TV'], u'name': u'"$100 Makeover" (2010)'},
                 {u'genre': [u'Documentary'], u'name': u'"$100 Taxi Ride" (2001)'},
                 {u'genre': [u'Game-Show', u'Music'], u'name': u'"$100,000 Name That Tune" (1984)'},
-                {u'genre': [u'Documentary', u'Music', u'Music', u'Music'], u'name': u'"$2 Bill" (2002)'},
+                {u'genre': [u'Documentary', u'Music'], u'name': u'"$2 Bill" (2002)'},
                 {u'genre': [u'Music'], u'name': u'"$2 Bill" (2002) {Kanye West}'},
                 {u'genre': [u'Reality-TV'], u'name': u'"$25 Million Dollar Hoax" (2004)'},
                 {u'genre': [u'Documentary'], u'name': u'"$40 a Day" (2002)'},

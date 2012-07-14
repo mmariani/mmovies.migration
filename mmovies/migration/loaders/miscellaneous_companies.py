@@ -23,7 +23,7 @@ class MiscellaneousCompanies(LoaderBase):
 
     def load(self):
         for idx, (movie_name, companies) in enumerate(self.iter_line()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'miscellaneous-companies': companies}})
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'miscellaneous-companies': companies}})
             self.progress(idx)
 
         self.progress(idx, end=True)

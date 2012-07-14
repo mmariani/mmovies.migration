@@ -29,7 +29,7 @@ class Plot(LoaderBase):
 
     def load(self):
         for idx, (movie_name, plot, by) in enumerate(self.iter_block()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'plot': {'text': plot, 'by': by}}})
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'plot': {'text': plot, 'by': by}}})
             self.progress(idx)
 
         self.progress(idx, end=True)

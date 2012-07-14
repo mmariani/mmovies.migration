@@ -50,7 +50,7 @@ class AlternateVersions(LoaderBase):
             if movie_name is None:
                 continue
             alternate_versions = list(self.parse_block(movie_block))
-            self.coll_movies.update({'name': movie_name}, {'$push': {'alternate-versions': alternate_versions}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'alternate-versions': alternate_versions}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

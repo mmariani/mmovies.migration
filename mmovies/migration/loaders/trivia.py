@@ -41,7 +41,7 @@ class Trivia(LoaderBase):
     def load(self):
         # TODO: separate trivia into separate attributes if they begin with 'EASTER EGG: ' or 'SPOILER: '
         for idx, (movie_name, trivia) in enumerate(self.iter_block()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'trivia': trivia}})
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'trivia': trivia}})
             self.progress(idx)
 
         self.progress(idx, end=True)
