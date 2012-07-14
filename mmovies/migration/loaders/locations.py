@@ -22,7 +22,7 @@ class Locations(LoaderBase):
 
     def load(self):
         for idx, (movie_name, locations) in enumerate(self.iter_line()):
-            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'locations': locations}})
+            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'locations': locations}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)
