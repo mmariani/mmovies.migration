@@ -22,7 +22,7 @@ class Genres(LoaderBase):
 
     def load(self):
         for idx, (movie_name, genre) in enumerate(self.iter_line()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'genre': genre}})
+            self.coll_movies.update({'name': movie_name}, {'$push': {'genre': genre}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)
