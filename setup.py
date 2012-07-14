@@ -34,7 +34,6 @@ setup(name='mmovies.migration',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
           'pymongo',
           'decorator',
       ],

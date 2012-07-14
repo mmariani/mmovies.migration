@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+
 import pymongo
 
 from mmovies.migration import loaders
@@ -11,11 +13,9 @@ log = logging.getLogger(__name__)
 
 
 
-HOST = '127.0.0.1'
-PORT = 27017
+HOST, PORT = '127.0.0.1', 27017
 
 # XXX look for tabs within imported fields - they might need to be split further
-# XXX use a real parser, will we?
 
 
 
@@ -48,8 +48,7 @@ def main(plaintext_dir):
             loaders.Locations,
             loaders.AlternateVersions,
         ]:
-        loader = loader_factory(db=db, plaintext_dir=plaintext_dir)
-        print 'loading %s' % loader.list_name
+        loader = loader_factory(db=db, plaintext_dir=plaintext_dir, fprog=sys.stdout)
         loader.load()
 
 
