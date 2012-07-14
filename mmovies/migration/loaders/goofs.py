@@ -41,7 +41,7 @@ class Goofs(LoaderBase):
     def load(self):
         # XXX divide into CHAR, CONT, CREW, FACT, FAIR, FAKE, PLOT, SYNC
         for idx, (movie_name, goof) in enumerate(self.iter_block()):
-            self.coll_movies.update({'name': movie_name}, {'$push': {'goofs': goof}})
+            self.coll_movies.update({'name': movie_name}, {'$push': {'goofs': goof}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)
