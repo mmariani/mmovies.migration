@@ -47,7 +47,7 @@ MISCELLANEOUS COMPANY LIST
 --------------------------------------------------------------------------------
 """
 
-class TestGenres(LoaderTest):
+class TestMiscellaneousCompanies(LoaderTest):
     def test_parse(self):
         MiscellaneousCompanies(db=self.db, plaintext=plaintext).load()
         expected = [

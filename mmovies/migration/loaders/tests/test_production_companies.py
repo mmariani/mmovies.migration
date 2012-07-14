@@ -42,7 +42,7 @@ C'est complet! (1903)					Pathé Frères [fr]
 --------------------------------------------------------------------------------
 """
 
-class TestGenres(LoaderTest):
+class TestProductionCompanies(LoaderTest):
     def test_parse(self):
         ProductionCompanies(db=self.db, plaintext=plaintext).load()
         expected = [

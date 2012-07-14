@@ -37,7 +37,7 @@ Yuvaraju (1982)						Telugu
 --------------------------------------------------------------------------------
 """
 
-class TestGenres(LoaderTest):
+class TestLanguage(LoaderTest):
     def test_parse(self):
         Language(db=self.db, plaintext=plaintext).load()
         expected = [

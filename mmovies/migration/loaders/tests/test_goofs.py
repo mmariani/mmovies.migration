@@ -39,7 +39,7 @@ GOOFS LIST
   does the location of the bottle cap.
 """
 
-class TestGenres(LoaderTest):
+class TestGoofs(LoaderTest):
     def test_parse(self):
         Goofs(db=self.db, plaintext=plaintext).load()
         expected = [

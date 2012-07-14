@@ -39,7 +39,7 @@ Absolution (2007) (V)					Vancouver, British Columbia, Canada
 --------------------------------------------------------------------------------
 """
 
-class TestGenres(LoaderTest):
+class TestLocations(LoaderTest):
     def test_parse(self):
         Locations(db=self.db, plaintext=plaintext).load()
         expected = [
