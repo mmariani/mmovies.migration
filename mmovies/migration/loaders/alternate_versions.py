@@ -23,9 +23,7 @@ class AlternateVersions(LoaderBase):
         movie_name = None
         block = []
 
-        it = self.iter_list()
-        while True:
-            line = next(it)
+        for line in self.iter_list():
             if not line:
                 continue
             if line.startswith('# '):
@@ -53,7 +51,7 @@ class AlternateVersions(LoaderBase):
             if movie_name is None:
                 continue
             alternate_versions = list(self.parse_block(movie_block))
-            self.coll_movies.update({'name': movie_name}, {'$push': {'alternate-versions': alternate_versions}})
+            self.coll_movies.update({'name': movie_name}, {'$push': {'alternate-versions': alternate_versions}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

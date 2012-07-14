@@ -100,7 +100,9 @@ class TestAkaTitles(LoaderTest):
                 {
                         u'name': u'"\'Til Death Do Us Part" (2006)',
                         u'aka_titles': [
-                            [u'(aka "John Waters Presents Love You to Death" (2006))\t(Australia) (DVD title)', u'(aka "Love You to Death" (2006))\t(Canada: English title)',
+                            [
+                                u'(aka "John Waters Presents Love You to Death" (2006))\t(Australia) (DVD title)',
+                                u'(aka "Love You to Death" (2006))\t(Canada: English title)',
                                 u'(aka "Love You to Death" (2006))\t(International: English title) (imdb display title)'
                                 ]
                             ]
