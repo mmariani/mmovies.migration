@@ -110,9 +110,10 @@ class TestTrivia(LoaderTest):
                         u'The IP addresses used in the show were made to be over 255 since those addresses don\'t work, '
                         u'much like 555 is the default prefix for phone numbers.',
                         u'This episode won an Emmy for editing (Chris Willingham) and received an additional nomination for '
-                        u'dramatic underscore (Sean Callery).'
-                        ],
-                    u'name': u'"24" (2001) {7:00 a.m.-8:00 a.m. (#1.8)}'
+                        u'dramatic underscore (Sean Callery).',
+                        u'Jamey\'s supposed to be receiving messages using her PDA. However, you can clearly see "Memo X of 3" '
+                        u'above each of the messages, showing that they were pre-written onto the PDA.'
+                        ], u'name': u'"24" (2001) {7:00 a.m.-8:00 a.m. (#1.8)}'
                     }
                 ]
 

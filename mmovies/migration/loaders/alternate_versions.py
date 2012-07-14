@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 
 
 
-
 class AlternateVersions(LoaderBase):
 
     list_name = 'alternate-versions'
@@ -23,8 +22,6 @@ class AlternateVersions(LoaderBase):
         block = []
 
         for line in self.iter_list():
-            if not line:
-                continue
             if line.startswith('# '):
                 yield movie_name, block
                 movie_name, block = line[2:], []
@@ -47,10 +44,9 @@ class AlternateVersions(LoaderBase):
 
     def load(self):
         for idx, (movie_name, movie_block) in enumerate(self.iter_block()):
-            if movie_name is None:
-                continue
             alternate_versions = list(self.parse_block(movie_block))
-            self.coll_movies.update({'name': movie_name}, {'$addToSet': {'alternate-versions': alternate_versions}}, True)
+            for alternate_version in alternate_versions:
+                self.coll_movies.update({'name': movie_name}, {'$addToSet': {'alternate-versions': alternate_version}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

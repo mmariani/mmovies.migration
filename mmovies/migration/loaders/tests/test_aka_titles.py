@@ -50,63 +50,50 @@ class TestAkaTitles(LoaderTest):
                 {
                     u'name': u'"$#*! My Dad Says" (2010)',
                     u'aka_titles': [
-                        [
-                            u'(aka "Bleep My Dad Says" (2010))\t(USA) (alternative title)',
-                            u'(aka "Shit My Dad Says" (2010))\t(USA) (uncensored intended title)'
-                            ]
+                        u'(aka "Bleep My Dad Says" (2010))\t(USA) (alternative title)',
+                        u'(aka "Shit My Dad Says" (2010))\t(USA) (uncensored intended title)'
                         ]
                     },
                 {
                     u'name': u'"$40 a Day" (2002)',
                     u'aka_titles': [
-                        [
-                            u'(aka "Forty Dollars a Day" (2002))\t(USA) (alternative spelling)'
-                            ]
+                        u'(aka "Forty Dollars a Day" (2002))\t(USA) (alternative spelling)'
                         ]
                     },
                 {
                     u'name': u'"$weepstake$" (1979)',
                     u'aka_titles': [
-                        [
-                            u'(aka "La grande lotteria" (1979))\t(Italy)', u'(aka "Sweepstakes" (1979))'
-                            ]
+                        u'(aka "La grande lotteria" (1979))\t(Italy)',
+                        u'(aka "Sweepstakes" (1979))'
                         ]
                     },
                 {
                     u'name': u'"\'t Is maar een spel" (2002)',
                     u'aka_titles': [
-                        [
-                            u'(aka "\'t Is maar een spel (powered by Chris Van den Durpel)" (2002))\t(Belgium: Flemish title) (complete title)'
-                            ]
+                        u'(aka "\'t Is maar een spel (powered by Chris Van den Durpel)" (2002))\t(Belgium: Flemish title) (complete title)'
                         ]
                     },
                 {
                     u'name': u'"\'t Schaep Met De 5 Pooten" (2006)',
                     u'aka_titles': [
-                        [
-                            u'(aka "\'t Spaanse Schaep" (2011))\t(Netherlands) (third season title)',
-                            u'(aka "Vrije Schaep Met De 5 Pooten, \'t" (2009))\t(Netherlands) (second season title)'
-                            ]
+                        u'(aka "\'t Spaanse Schaep" (2011))\t(Netherlands) (third season title)',
+                        u'(aka "Vrije Schaep Met De 5 Pooten, \'t" (2009))\t(Netherlands) (second season title)'
                         ]
                     },
                 {
                     u'name': u'"\'t Zonnetje in huis" (1993) {Toen was geluk nog ver te zoeken (#5.13)}',
                     u'aka_titles': [
-                        [
-                            u'(aka "\'t Zonnetje in huis" (1993) {Toen was geluk nog ver te zoeken. (#5.13)})'
-                            ]
+                        u'(aka "\'t Zonnetje in huis" (1993) {Toen was geluk nog ver te zoeken. (#5.13)})'
                         ]
                     },
                 {
-                        u'name': u'"\'Til Death Do Us Part" (2006)',
-                        u'aka_titles': [
-                            [
-                                u'(aka "John Waters Presents Love You to Death" (2006))\t(Australia) (DVD title)',
-                                u'(aka "Love You to Death" (2006))\t(Canada: English title)',
-                                u'(aka "Love You to Death" (2006))\t(International: English title) (imdb display title)'
-                                ]
-                            ]
-                        }
+                    u'name': u'"\'Til Death Do Us Part" (2006)',
+                    u'aka_titles': [
+                        u'(aka "John Waters Presents Love You to Death" (2006))\t(Australia) (DVD title)',
+                        u'(aka "Love You to Death" (2006))\t(Canada: English title)',
+                        u'(aka "Love You to Death" (2006))\t(International: English title) (imdb display title)'
+                        ]
+                    }
                 ]
 
         self.assertItemsEqual(self.extract_movies(), expected)

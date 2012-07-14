@@ -11,6 +11,9 @@ import time
 
 import logging
 
+from mmovies.migration.lib.decorators import filter_empty
+
+
 log = logging.getLogger(__name__)
 
 
@@ -78,6 +81,7 @@ class LoaderBase(object):
         self.fprog.flush()
 
 
+    @filter_empty
     def iter_list(self):
         """
         Yields stripped lines from a list of stuff, either gzipped or not (which is slightly faster).

@@ -62,63 +62,51 @@ class TestAlternateVersions(LoaderTest):
         expected = [
                 {
                     u'alternate-versions': [
-                        [
-                            u"The version airing on Cartoon Network deletes the series' usual ending credits sequence, "
-                            u"instead replacing it with a much shorter montage of scenes from the series while an English "
-                            u"version of the credits scroll by. This was done, because of an image, of nudity, and to reduce "
-                            u"overall running time for advertising reasons."
-                            ]
+                        u"The version airing on Cartoon Network deletes the series' usual ending credits sequence, "
+                        u"instead replacing it with a much shorter montage of scenes from the series while an English "
+                        u"version of the credits scroll by. This was done, because of an image, of nudity, and to reduce "
+                        u"overall running time for advertising reasons."
                         ],
                     u'name': u'0361140'
                     },
                 {
                     u'alternate-versions': [
-                        [
-                            u'The show was rerun on Swedish television in 1993 and 2001, but then, the six 20-minute episodes '
-                            u'were edited into two one-hour episodes, comprised of three original episodes each. This is also '
-                            u'the version that has been distributed on Swedish DVD in 2007.'
-                            ]
+                        u'The show was rerun on Swedish television in 1993 and 2001, but then, the six 20-minute episodes '
+                        u'were edited into two one-hour episodes, comprised of three original episodes each. This is also '
+                        u'the version that has been distributed on Swedish DVD in 2007.'
                         ],
                     u'name': u'"1000 \xe5r - En svensk historia" (1980)'
                     },
                 {
                     u'alternate-versions': [
-                        [
-                            u'The 12 oz. Mouse Volume One DVD presents the entire series (excluding episode 13, which is '
-                            u'featured separately) as a single, continuous movie, with newly produced footage to bridge '
-                            u'the gaps between episodes.'
-                            ]
+                        u'The 12 oz. Mouse Volume One DVD presents the entire series (excluding episode 13, which is '
+                        u'featured separately) as a single, continuous movie, with newly produced footage to bridge '
+                        u'the gaps between episodes.'
                         ],
                     u'name': u'"12 oz. Mouse" (2005)'
                     },
                 {
                     u'alternate-versions': [
-                        [
-                            u'Another version aired immediately after the premiere of this episode. In this alternate '
-                            u'version, several scenes were shortened to make room for a drum solo by Skillet which went '
-                            u'on for several minutes.'
-                            ]
+                        u'Another version aired immediately after the premiere of this episode. In this alternate '
+                        u'version, several scenes were shortened to make room for a drum solo by Skillet which went '
+                        u'on for several minutes.'
                         ],
                     u'name': u'"12 oz. Mouse" (2005) {Spider (#1.4)}'
                     },
                 {
                     u'alternate-versions': [
-                        [
-                            u"Several episodes from this series were edited together with new footage of Chaney as Satan "
-                            u"to form the feature film Devil's Messenger (1961)."
-                            ]
+                        u"Several episodes from this series were edited together with new footage of Chaney as Satan "
+                        u"to form the feature film Devil's Messenger (1961)."
                         ],
                     u'name': u'"13 Demon Street" (1959)'
                     },
                 {
                     u'alternate-versions': [
-                        [
-                            u'In the DVD releases by Anchor Bay Entertainment, most of the music is replaced with '
-                            u'generic music due to licensing issues.',
-                            u'In its original syndication, the word "Ass" was dubbed "Tail". DVD version has done the same.',
-                            u'In its original broadcast the word "Suck" was dubbed with "Stink" or "Spit". Its DVD '
-                            u'release has kept this audio track'
-                            ]
+                        u'In the DVD releases by Anchor Bay Entertainment, most of the music is replaced with '
+                        u'generic music due to licensing issues.',
+                        u'In its original syndication, the word "Ass" was dubbed "Tail". DVD version has done the same.',
+                        u'In its original broadcast the word "Suck" was dubbed with "Stink" or "Spit". Its DVD '
+                        u'release has kept this audio track'
                         ],
                     u'name': u'"21 Jump Street" (1987)'
                     }
