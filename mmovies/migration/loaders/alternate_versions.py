@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import decorator
 import logging
 
 from mmovies.migration.lib.decorators import filter_empty, filter_empty_any
