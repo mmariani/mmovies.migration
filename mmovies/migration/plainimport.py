@@ -47,6 +47,7 @@ def main(plaintext_dir):
             loaders.MiscellaneousCompanies,
             loaders.Locations,
             loaders.AlternateVersions,
+            loaders.Certificates,
         ]:
         loader = loader_factory(db=db, plaintext_dir=plaintext_dir, fprog=sys.stdout)
         loader.load()
