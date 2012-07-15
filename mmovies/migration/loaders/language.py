@@ -23,7 +23,7 @@ class Language(LoaderBase):
             yield movie_name, language
 
     def load(self):
-        for idx, (movie_name, language) in enumerate(self.iter_line()):
+        for idx, (movie_name, language) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'language': language}}, True)
             self.progress(idx)
 

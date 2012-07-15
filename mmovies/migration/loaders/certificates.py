@@ -21,7 +21,7 @@ class Certificates(LoaderBase):
             yield movie_name, certificate
 
     def load(self):
-        for idx, (movie_name, certificate) in enumerate(self.iter_line()):
+        for idx, (movie_name, certificate) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'certificates': certificate}}, True)
             self.progress(idx)
 

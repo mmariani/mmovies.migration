@@ -28,7 +28,7 @@ class Plot(LoaderBase):
                 yield movie_name, ' '.join(plot_lines), line[4:]
 
     def load(self):
-        for idx, (movie_name, plot, by) in enumerate(self.iter_block()):
+        for idx, (movie_name, plot, by) in enumerate(self.iter_block(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'plot': {'text': plot, 'by': by}}})
             self.progress(idx)
 

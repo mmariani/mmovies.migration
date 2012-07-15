@@ -21,7 +21,7 @@ class Locations(LoaderBase):
             yield movie_name, locations
 
     def load(self):
-        for idx, (movie_name, locations) in enumerate(self.iter_line()):
+        for idx, (movie_name, locations) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'locations': locations}}, True)
             self.progress(idx)
 

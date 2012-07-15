@@ -21,7 +21,7 @@ class ProductionCompanies(LoaderBase):
             yield movie_name, company_name
 
     def load(self):
-        for idx, (movie_name, company_name) in enumerate(self.iter_line()):
+        for idx, (movie_name, company_name) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'company_name': company_name}}, True)
             self.progress(idx)
 

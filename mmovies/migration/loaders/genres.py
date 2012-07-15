@@ -21,7 +21,7 @@ class Genres(LoaderBase):
             yield movie_name, genre
 
     def load(self):
-        for idx, (movie_name, genre) in enumerate(self.iter_line()):
+        for idx, (movie_name, genre) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'genre': genre}}, True)
             self.progress(idx)
 

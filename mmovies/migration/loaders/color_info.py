@@ -21,7 +21,7 @@ class ColorInfo(LoaderBase):
             yield movie_name, color_info
 
     def load(self):
-        for idx, (movie_name, color_info) in enumerate(self.iter_line()):
+        for idx, (movie_name, color_info) in enumerate(self.iter_line(), 1):
             self.coll_movies.update({'name': movie_name}, {'$addToSet': {'color_info': color_info}}, True)
             self.progress(idx)
 
