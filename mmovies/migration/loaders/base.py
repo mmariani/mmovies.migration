@@ -12,6 +12,7 @@ import time
 import logging
 
 from mmovies.migration.lib.decorators import filter_empty
+from mmovies.migration.lib.helpers import PROGRESS_TICKER_SIZE
 
 
 log = logging.getLogger(__name__)
@@ -67,7 +68,7 @@ class LoaderBase(object):
         if not self.fprog:
             return
 
-        if not end and n % 431:
+        if not end and n % PROGRESS_TICKER_SIZE:
             return
 
         self.fprog.write('%d' % n)
