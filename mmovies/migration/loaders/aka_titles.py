@@ -4,6 +4,7 @@
 import logging
 
 from mmovies.migration.lib.decorators import filter_empty, filter_empty_any
+from mmovies.migration.lib.helpers import batches, BATCH_SIZE
 from mmovies.migration.loaders import LoaderBase
 
 log = logging.getLogger(__name__)
@@ -39,8 +40,7 @@ class AkaTitles(LoaderBase):
     def load(self):
         for idx, (movie_name, movie_block) in enumerate(self.iter_block()):
             aka_titles = list(self.parse_block(movie_block))
-            for aka_title in aka_titles:
-                self.coll_movies.update({'name': movie_name}, {'$addToSet': {'aka_titles': aka_title}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$set': {'aka_titles': aka_titles}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

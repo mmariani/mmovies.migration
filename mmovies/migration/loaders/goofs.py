@@ -46,8 +46,7 @@ class Goofs(LoaderBase):
         # XXX divide into CHAR, CONT, CREW, FACT, FAIR, FAKE, PLOT, SYNC
         for idx, (movie_name, movie_block) in enumerate(self.iter_block()):
             goofs = list(self.parse_block(movie_block))
-            for goof in goofs:
-                self.coll_movies.update({'name': movie_name}, {'$addToSet': {'goofs': goof}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$set': {'goofs': goofs}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)

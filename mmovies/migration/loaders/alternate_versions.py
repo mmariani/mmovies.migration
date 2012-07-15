@@ -45,8 +45,7 @@ class AlternateVersions(LoaderBase):
     def load(self):
         for idx, (movie_name, movie_block) in enumerate(self.iter_block()):
             alternate_versions = list(self.parse_block(movie_block))
-            for alternate_version in alternate_versions:
-                self.coll_movies.update({'name': movie_name}, {'$addToSet': {'alternate-versions': alternate_version}}, True)
+            self.coll_movies.update({'name': movie_name}, {'$set': {'alternate-versions': alternate_versions}}, True)
             self.progress(idx)
 
         self.progress(idx, end=True)
