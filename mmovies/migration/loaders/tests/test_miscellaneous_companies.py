@@ -11,8 +11,8 @@ miscellaneous-companies.list
 
 -------------------------------------------------------------------------------
 
-MISCELLANEOUS COMPANY LIST
-==========================
+MISCELLANEOUS COMPANIES LIST
+============================
 "'Til Death" (2006)					Central Casting [us]	(extras casting)
 "'Til Death" (2006)					Chapman/Leonard Studio Equipment [us]	(camera car)
 "'Til Death" (2006)					Chapman/Leonard Studio Equipment [us]	(camera dollies)

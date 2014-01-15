@@ -13,7 +13,7 @@ class MiscellaneousCompanies(LoaderBase):
     # XXX refactor see locations
 
     list_name = 'miscellaneous-companies'
-    re_guard = 'MISCELLANEOUS COMPANY LIST'
+    re_guard = 'MISCELLANEOUS COMPANIES LIST'
 
     def iter_line(self):
         for line in self.iter_list():
